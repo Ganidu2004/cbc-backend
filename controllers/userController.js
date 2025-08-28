@@ -50,7 +50,7 @@ export function loginUser(req,res){
                             isBlocked : user.isBlocked,
                             type : user.type,
                             profilePic : user.profilePic
-                        } , "hgck16589" ) //secret key
+                        } , process.env.SECRET ) //secret key
 
                         res.json({
                             message : "User logged in",
