@@ -25,3 +25,9 @@ export function createProduct(req,res){
         })
     })
 }
+
+export function getProduct(req,res){
+    product.find({}).then((products)=>{
+        res.json(products)
+    })
+}
