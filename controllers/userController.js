@@ -8,6 +8,21 @@ export function createUser(req,res){
 
     const newUserData = req.body
 
+    if(newUserData.type == "admin"){
+        if(req.user == null){
+            res.json({
+                message : "Please login as administrator to create admin accounts"
+            })
+            return
+        }
+        if(req.user.type != "admin"){
+            res.json({
+                message : "Please login as administrator to create admin accounts"
+            })
+            return
+        }
+    }
+
     // password hashing code by bcrypt
     newUserData.password = bcrypt.hashSync(newUserData.password,10)
 
@@ -66,3 +81,7 @@ export function loginUser(req,res){
         }
     )
 }
+
+
+//"ganidu@example.com" , "SecurePass123!" - admin
+//"ganidu23@example.com", "SecurePass123!" - customer

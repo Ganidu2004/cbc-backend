@@ -1,9 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser'; 
 import mongoose from 'mongoose'; // import database
-import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
 dotenv.config()
 
@@ -28,7 +27,7 @@ app.use(
 
     (req,res,next)=>{
 
-        const token = req.header("Authorization")?.replace("Bearer","")
+        const token = req.header("Authorization")?.replace("Bearer ","")
 
         if(token != null){
             jwt.verify(token,process.env.SECRET,(error,decode)=>{
@@ -43,9 +42,6 @@ app.use(
     }
 
 )
-
-// product root
-app.use("/api/products",productRouter)
 
 // user root
 app.use("/api/users",userRouter)
