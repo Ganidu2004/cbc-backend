@@ -20,15 +20,15 @@ export async function createOrder(req,res){
 
         }else{
 
-            const currentOrderId = latestOrder[0].orderId
+            const currentOrderId = latestOrder[0].orderId;
 
-            const numberString = currentOrderId.replace("CBC","")
+            const numberString = currentOrderId.replace("CBC","");
 
-            const number = parseInt(numberString)
+            const number = parseInt(numberString);
 
             const newNumber = (number + 1).toString().padStart(4,"0");
 
-            orderId = "CBC" + newNumber
+            orderId = "CBC" + newNumber;
 
         }
 
@@ -45,6 +45,18 @@ export async function createOrder(req,res){
         })
 
     }catch(error){
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
+export async function getOrder(req,res) {
+    try{
+        const orders = await order.find({email : req.user.email})
+
+        res.json(orders)
+    }catch{
         res.status(500).json({
             message : error.message
         })

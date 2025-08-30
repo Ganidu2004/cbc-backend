@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const orderSchema = mongoose.Schema({
-    orderID : {
+    orderId : {
         type : String,
+        required : true,
         unique : true
     },
     email : {
