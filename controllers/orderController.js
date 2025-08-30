@@ -1,4 +1,3 @@
-import { cache } from "react";
 import order from "../models/order.js";
 import { isCustomer } from "./userController.js";
 
@@ -39,7 +38,7 @@ export async function createOrder(req,res){
 
         const newOrder = new order(newOrderData)
 
-        await order.save()
+        await newOrder.save()
 
         res.json({
             message : "Order created"
