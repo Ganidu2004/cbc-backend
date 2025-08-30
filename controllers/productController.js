@@ -21,7 +21,7 @@ export function createProduct(req,res){
         })
     }).catch((error)=>{
         res.json({
-            message : "Product nit created"
+            message : error
         })
     })
 }
