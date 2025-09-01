@@ -10,10 +10,6 @@ const orderSchema = mongoose.Schema({
         type : String,
         required : true
     }, 
-    orderName : {
-        type : String,
-        required : true
-    },
     orderItems : [
         {
             name : {
