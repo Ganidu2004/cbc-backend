@@ -12,7 +12,7 @@ dotenv.config()
 const app = express();
 
 // connected database
-const mongodbUrl = process.env.MONDO_DB_URI
+const mongodbUrl = process.env.MONGO_DB_URI
 
 app.use(cors())
 
