@@ -65,7 +65,7 @@ export function updateProduct(req,res){
     const newProductData = req.body
 
     product.updateOne(
-        {productId : productId}.newProductData
+        {productId : productId},newProductData
     ).then(()=>{
         res.json({
             message:"Product Updated"
