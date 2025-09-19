@@ -1,4 +1,3 @@
-import e from "express";
 import product from "../models/product.js";
 import { isAdmin } from "./userController.js";
 
@@ -80,8 +79,8 @@ export async function getProductById(req,res){
 
     try{
         const productId = req.params.productId
-        const product = await product.findOne({productId:productId})
-        res.json(product)
+        const getProduct = await product.findOne({productId:productId})
+        res.json(getProduct)
     }catch(e){
         res.status(500).json({
             e
