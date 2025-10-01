@@ -51,8 +51,8 @@ export async function createOrder(req,res){
 
             newProductArray[i] = {
                 name : Product.productName,
-                price : Product.price,
-                quentity : newOrderData.orderItems[i].quentity,
+                price : Product.lastPrice,
+                quentity : newOrderData.orderItems[i].qty,
                 image : Product.images[0]
             }
             
@@ -66,10 +66,11 @@ export async function createOrder(req,res){
 
         const newOrder = new order(newOrderData)
 
-        await newOrder.save()
+        const saveOrder = await newOrder.save()
 
         res.json({
-            message : "Order created"
+            message : "Order created",
+            order : saveOrder
         })
 
     }catch(error){
@@ -85,6 +86,58 @@ export async function getOrder(req,res) {
 
         res.json(orders)
     }catch{
+        res.status(500).json({
+            message : error.message
+        })
+    }
+}
+
+export async function getQuote(req,res){
+    //take the latest product Id
+    try{
+        const newOrderData = req.body
+
+        const newProductArray =[]
+
+        let total = 0
+        let labeledTotal = 0
+
+        for(let i=0;i<newOrderData.orderItems.length;i++){
+            const Product = await product.findOne({
+                productId : newOrderData.orderItems[i].productId
+            })
+ 
+            if(Product == null){
+                res.json({
+                    message : "Product with id "+newOrderData.orderItems[i].productId+" not found"  
+                })
+                return
+            }
+
+            labeledTotal += Product.price * newOrderData.orderItems[i].qty
+            total += Product.lastPrice * newOrderData.orderItems[i].qty
+
+            newProductArray[i] = {
+                name : Product.productName,
+                price : Product.lastPrice,
+                labeledPrice : Product.price,
+                quentity : newOrderData.orderItems[i].qty,
+                image : Product.images[0]
+            }
+            
+        }
+
+        newOrderData.orderItems = newProductArray
+        newOrderData.total = total
+
+        res.json({
+            orderItems:newProductArray,
+            total : total,
+            labeledTotal :labeledTotal
+        })
+
+
+    }catch(error){
         res.status(500).json({
             message : error.message
         })
